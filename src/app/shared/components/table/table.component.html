@@ -1,0 +1,55 @@
+<div class="card">
+    @if(data$ | async; as data){
+        <p-table
+    #dt1
+        styleClass="p-datatable-gridlines"
+        [value]="data"
+        dataKey="id"
+        [rows]="rowsNumber"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        [globalFilterFields]="['firstName', 'lastName']"
+        [tableStyle]="{ 'min-width': '75rem' }"
+    >
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <p-iconField iconPosition="left" class="ml-auto">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input 
+                    pInputText 
+                    type="text" 
+                    (input)="onGlobalFilter(dt1, $event)"
+
+                    placeholder="Search by name" />
+            </p-iconField>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            @for(column of columns;track column){
+                <th>{{column.header}}</th>
+            }
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data>
+        <tr>
+            @for(item of columns;track item){
+                <td>
+                    {{ data[item.field] }}
+                </td>
+            }
+            
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="5">No data found.</td>
+        </tr>
+    </ng-template>
+    </p-table>
+    }
+    
+</div>
