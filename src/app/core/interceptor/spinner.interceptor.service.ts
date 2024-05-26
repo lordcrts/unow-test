@@ -17,7 +17,6 @@ export class SpinnerInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    
     if (!this.countRequest) {
       this.spinner.show();
     }
@@ -31,7 +30,7 @@ export class SpinnerInterceptor implements HttpInterceptor {
           if (!this.countRequest) {
             setTimeout(() => {
               this.spinner.hide();
-            }, 1000);
+            }, 500);
           }
         })
       );

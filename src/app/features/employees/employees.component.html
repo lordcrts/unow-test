@@ -1,3 +1,7 @@
 <div>
-    <app-table [data$]="employeesState" [columns]="columns"></app-table>
+    <app-table [data$]="employeesState" [columns]="columns" (dataItem)="dataItem($event)" [action]="addEmployee.action"></app-table>
 </div>
+<p-toast position="top-center" key="tl" />
+<p-confirmDialog 
+    key="confirm"  
+    rejectButtonStyleClass="p-button-outlined" />

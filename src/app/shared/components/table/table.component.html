@@ -1,4 +1,4 @@
-<div class="card">
+<div class="table">
     @if(data$ | async; as data){
         <p-table
     #dt1
@@ -6,15 +6,16 @@
         [value]="data"
         dataKey="id"
         [rows]="rowsNumber"
-        [rowsPerPageOptions]="[10, 25, 50]"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
         [loading]="loading"
         [paginator]="true"
         [globalFilterFields]="['firstName', 'lastName']"
         [tableStyle]="{ 'min-width': '75rem' }"
     >
     <ng-template pTemplate="caption">
-        <div class="flex">
-            <p-iconField iconPosition="left" class="ml-auto">
+        <div class="flex flex-wrap">
+            <p-button id="add-employee" label="Add Employee" severity="success" class="mb-2 mr-4" type="button" (onClick)="action()"/>
+            <p-iconField iconPosition="left">
                 <p-inputIcon>
                     <i class="pi pi-search"></i>
                 </p-inputIcon>
@@ -25,12 +26,13 @@
 
                     placeholder="Search by name" />
             </p-iconField>
+            
         </div>
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
             @for(column of columns;track column){
-                <th>{{column.header}}</th>
+                <th [style]="'width:'+column.width">{{column.header}}</th>
             }
         </tr>
     </ng-template>
@@ -38,10 +40,18 @@
         <tr>
             @for(item of columns;track item){
                 <td>
+                @if(item.type === 'dropdown'){
+                <p-menu appendTo="body"  #menu [model]="item.actions.items" (click)="data" [popup]="true"></p-menu>
+                <button class="m-auto" pButton type="button" (click)="menu.toggle($event);sendData(data)" icon="pi pi-bars"></button>
+
+                }@else{
                     {{ data[item.field] }}
-                </td>
+                }
+                
+                    
+            </td>
             }
-            
+        
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -50,6 +60,8 @@
         </tr>
     </ng-template>
     </p-table>
+    }@else {
+        <app-skeleton-table></app-skeleton-table>
     }
     
 </div>

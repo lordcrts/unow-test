@@ -1,9 +1,10 @@
-import { exhaustMap, map, tap } from 'rxjs/operators';
+import { exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { getEmployees,setEmployees, startStopLoading } from './shared.actions';
+import { createEmployee, createdEmployee, deleteEmployee, deletedEmployee, getEmployees,setEmployees, startStopLoading, updateEmployee, updatedEmployee } from './shared.actions';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../../core/models/employee.model';
+import { of } from 'rxjs';
 
 @Injectable()
 export class SharedEffects {
@@ -39,31 +40,34 @@ export class SharedEffects {
         );
     });
 
-    // getCarDetailByUrlSlug$ = createEffect(() => {
-    //     return this.actions$.pipe(
-    //         ofType(setCarDetail),
-    //         exhaustMap((action) => {
-    //             return this.carService.getCarByModel(action.url_slug)
-    //                 .pipe(
-    //                     map((cars: Car) => {
-    //                         return getCarDetail(cars);
-    //                     })
-    //                 );
-    //         })
-    //     );
-    // });
+    createEmployee$ = createEffect(() => {
+        return this.actions$.pipe(
+          ofType(createEmployee),
+          map(action => action.employee),
+          switchMap(employee => {
+            const newEmployee: Employee = employee;
+            return of(createdEmployee({ employee: newEmployee }));
+          })
+        );
+      });
 
-    // getCarsByBrand$ = createEffect(() => {
-    //     return this.actions$.pipe(
-    //         ofType(setCarsByBrand),
-    //         exhaustMap((action) => {
-    //             return this.carService.getCarsByBrand(action.brand)
-    //                 .pipe(
-    //                     map((cars: Car[]) => {
-    //                         return getCarsByBrand({ cars });
-    //                     })
-    //                 );
-    //         })
-    //     );
-    // });
+    updateEmployee$ = createEffect(() => {
+        return this.actions$.pipe(
+          ofType(updateEmployee),
+          map(action => {
+            const updatedEmployeeV = action.employee;
+            return updatedEmployee({ employee: updatedEmployeeV });
+          })
+        );
+      });
+
+      deleteEmployee$ = createEffect(() => {
+        return this.actions$.pipe(
+          ofType(deleteEmployee),
+          map(action => {
+            const id = action.id;
+            return deletedEmployee({ id });
+          })
+        );
+      });
 }

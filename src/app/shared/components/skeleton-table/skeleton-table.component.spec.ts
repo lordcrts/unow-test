@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './header.component';
+import { SkeletonTableComponent } from './skeleton-table.component';
 
-describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('SkeletonTableComponent', () => {
+  let component: SkeletonTableComponent;
+  let fixture: ComponentFixture<SkeletonTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [SkeletonTableComponent]
     })
     .compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
+    
+    fixture = TestBed.createComponent(SkeletonTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

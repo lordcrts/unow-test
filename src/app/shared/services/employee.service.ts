@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { delay, filter, map, Observable, of } from 'rxjs';
 import { Employee } from '../../core/models/employee.model';
 import { FakeDataCaEmployees } from '../mocks/employees';
+import { Position } from '../../core/models/position.model';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -15,33 +17,13 @@ export class EmployeeService {
   getEmployees(): Observable<Employee[]> {
     return of(FakeDataCaEmployees.employees)
       .pipe(
-        map(employees => employees.sort(
-          (a, b) => a.firstName.localeCompare(b.firstName))
-        ),
-        delay(1000)
+        delay(0)
       );
   }
 
-  // getCarsByBrand(brand: string): Observable<Car[]> {
-  //   return this.http.get<Car[]>("./assets/cars.json")
-  //     .pipe(
-  //       map(x => x.filter(
-  //         x => x.brand.toLowerCase().includes(brand.toLowerCase()))
-  //       ),
-  //       map(x => x.sort(
-  //         (a, b) => a.brand.localeCompare(b.brand))
-  //       )
-  //       , delay(1000)
-  //     );
-  // }
-
-  // getCarByModel(url_slug: string): Observable<Car | any> {
-  //   return this.http.get<Car[]>("./assets/cars.json")
-  //     .pipe(
-  //       map(x => x.find(
-  //         x => x.url_slug === url_slug)
-  //         ),
-  //       delay(1000)
-  //     );
-  // }
+  getPositions(): Observable<Position[]> {
+    return this.http.get<any>(`${environment.positionApi}/positions`).pipe(
+      map(response => response['positions'])
+    );
+  }
 }

@@ -1,6 +1,6 @@
 
 import { createReducer, on } from '@ngrx/store';
-import {getEmployees, startStopLoading } from './shared.actions';
+import {createEmployee, deletedEmployee, getEmployees, startStopLoading, updatedEmployee } from './shared.actions';
 import { initialState } from './shared.state';
 
 const _sharedReducer = createReducer(
@@ -17,18 +17,20 @@ const _sharedReducer = createReducer(
       employees: action.employees,
     };
   }),
-  // on(getCarDetail, (state, action) => {
-  //   return {
-  //     ...state,
-  //     carDetail: action,
-  //   };
-  // }),
-  // on(getCarsByBrand, (state, action) => {
-  //   return {
-  //     ...state,
-  //     cars: action.cars,
-  //   };
-  // }),
+  on(createEmployee, (state, { employee }) => ({
+    ...state,
+    employees: [employee, ...state.employees]
+  })),
+  on(updatedEmployee, (state, { employee }) => ({
+    ...state,
+    employees: state.employees.map(emp =>
+      emp.id === employee.id ? employee : emp
+    )
+  })),
+  on(deletedEmployee, (state, { id }) => ({
+    ...state,
+    employees: state.employees.filter(emp => emp.id !== id)
+  }))
 );
 
 export function SharedReducer(state: any, action: any) {

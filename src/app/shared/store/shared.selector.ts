@@ -13,11 +13,3 @@ export const startStopLoadingSelector = createSelector(getSharedState, (state) =
 export const getEmployeesSelector = createSelector(getSharedState, (state) => {
   return state.employees;
 });
-
-// export const getCarDetailSelector = createSelector(getSharedState, (state) => {
-//   return state.carDetail;
-// });
-
-// export const getCarsByBrandSelector = createSelector(getSharedState, (state) => {
-//   return state.cars;
-// });
