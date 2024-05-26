@@ -38,7 +38,7 @@ jobs:
       - name: Deploy to pages
         uses: crazy-max/ghaction-github-pages@v4.0.0
         with:
-          build_dir: dist/
+          build_dir: dist/unow-test
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       
